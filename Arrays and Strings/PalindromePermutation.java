@@ -13,7 +13,7 @@ public class PalindromePermutation {
         // To take the empty characters, otherwise use next
         String firstString = sc.nextLine();
         //firstString = firstString.toLowerCase(); If we want to take the capitals and simples as one
-        boolean result = checkPermutationMapBased(firstString);
+        boolean result = checkPermutationBitVectorBased(firstString);
 
         String output = result ? "Palindrome Permutation" : "Not Palindrome permutation";
 
@@ -52,6 +52,39 @@ public class PalindromePermutation {
 
         }
         return true;
+    }
+
+    /**
+     * Bit vector based solution
+     * Complexity O(N)
+     * Space Complexity is less
+     * @param string
+     * @return
+     */
+    public static boolean checkPermutationBitVectorBased(String string){
+        int count = 0;
+        for (int i = 0; i < string.length() ; i++) {
+            int index = string.charAt(i);
+            count =toggle(count,index);
+
+        }
+        if(((count -1) & count) == 0 || count == 0) {
+            return true;
+        }
+        return false;
+    }
+
+    /* Toggle the ith bit in the integer. */
+    public static int toggle(int bitVector, int index) {
+        if (index < 0) return bitVector;
+
+        int mask = 1 << index;
+        if ((bitVector & mask) == 0) {
+            bitVector |= mask;
+        } else {
+            bitVector &= ~mask;
+        }
+        return bitVector;
     }
 
 }
